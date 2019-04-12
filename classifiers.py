@@ -23,7 +23,7 @@ classifiers = {
     "RBF SVM": SVC(gamma=2, C=1),
     "Gaussian Process": GaussianProcessClassifier(1.0 * RBF(1.0)),
     "Decision Tree": DecisionTreeClassifier(max_depth=5),
-    "Neural Net": MLPClassifier(alpha=1),
+    "Neural Net": MLPClassifier(alpha=1, max_iter=1000),
     "Random Forest": RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
     "AdaBoost" : AdaBoostClassifier(),
     "XGBoost": xgb.XGBClassifier()
@@ -36,6 +36,6 @@ def evaluate_classification(X, y):
         result = sum(cross_validate(clf, X, y=y, cv=cv, scoring=profit_scoring)['test_score'])
         print(f"{name}: test core = {result} ")
 
-def profit_scorer(y, y_pred):
+def profit_scorer(y_pred,y):
     profit_matrix = {(0,0): 0, (0,1): -5, (1,0): -25, (1,1): 5}
     return sum(profit_matrix[(pred, actual)] for pred, actual in zip(y_pred, y))
