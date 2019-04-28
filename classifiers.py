@@ -21,7 +21,7 @@ classifiers = {
     "K Nerest Neighbors": KNeighborsClassifier(3),
     "Linear SVM": SVC(kernel="linear", C=0.025),
     "RBF SVM": SVC(gamma=2, C=1),
-    "Gaussian Process": GaussianProcessClassifier(1.0 * RBF(1.0)),
+    #"Gaussian Process": GaussianProcessClassifier(1.0 * RBF(1.0)),
     "Decision Tree": DecisionTreeClassifier(max_depth=5),
     "Neural Net": MLPClassifier(alpha=1, max_iter=1000),
     "Random Forest": RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
@@ -29,13 +29,13 @@ classifiers = {
     "XGBoost": xgb.XGBClassifier()
 }
 
+def profit_scorer(y_pred,y):
+    profit_matrix = {(0,0): 0, (0,1): -5, (1,0): -25, (1,1): 5}
+    return sum(profit_matrix[(pred, actual)] for pred, actual in zip(y_pred, y))
+
 def evaluate_classification(X, y):
     profit_scoring = make_scorer(profit_scorer, greater_is_better=True)
     cv = StratifiedKFold(n_splits=10, random_state=42)
     for name, clf in classifiers.items():
-        result = sum(cross_validate(clf, X, y=y, cv=cv, scoring=profit_scoring)['test_score'])
+        result = sum(cross_validate(clf, X, y=y, cv=cv, scoring=profit_scoring)['test_score'])/10
         print(f"{name}: test core = {result} ")
-
-def profit_scorer(y_pred,y):
-    profit_matrix = {(0,0): 0, (0,1): -5, (1,0): -25, (1,1): 5}
-    return sum(profit_matrix[(pred, actual)] for pred, actual in zip(y_pred, y))
