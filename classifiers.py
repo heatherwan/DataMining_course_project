@@ -14,6 +14,8 @@ from sklearn.naive_bayes import GaussianNB
 import xgboost as xgb
 from sklearn.model_selection import cross_validate, StratifiedKFold
 from sklearn.metrics import make_scorer
+from sklearn.metrics import confusion_matrix
+
 
 
 classifiers = {
@@ -29,13 +31,17 @@ classifiers = {
     "XGBoost": xgb.XGBClassifier()
 }
 
-def profit_scorer(y_pred,y):
+def profit_scorer(y, y_pred):
+#     print(confusion_matrix(y, y_pred))
     profit_matrix = {(0,0): 0, (0,1): -5, (1,0): -25, (1,1): 5}
     return sum(profit_matrix[(pred, actual)] for pred, actual in zip(y_pred, y))
 
 def evaluate_classification(X, y):
-    profit_scoring = make_scorer(profit_scorer, greater_is_better=True)
     cv = StratifiedKFold(n_splits=10, random_state=42)
+    profit_scoring = make_scorer(profit_scorer, greater_is_better=True)
+    
     for name, clf in classifiers.items():
-        result = sum(cross_validate(clf, X, y=y, cv=cv, scoring=profit_scoring)['test_score'])/10
+        print(cross_validate(clf, X, y=y, cv=cv, scoring=profit_scoring)['test_score'])
+        result = sum(cross_validate(clf, X, y=y, cv=cv, scoring=profit_scoring)['test_score'])
         print(f"{name}: test core = {result} ")
+        
