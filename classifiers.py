@@ -8,6 +8,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.gaussian_process import GaussianProcessClassifier
 from sklearn.gaussian_process.kernels import RBF
+from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.naive_bayes import GaussianNB
@@ -19,12 +20,13 @@ from sklearn.metrics import confusion_matrix
 
 
 classifiers = {
-    "Naive Bayes" : GaussianNB(),
-    "K Nerest Neighbors": KNeighborsClassifier(3),
+#     "Naive Bayes" : GaussianNB(),
+#     "K Nerest Neighbors": KNeighborsClassifier(3),
     "Linear SVM": SVC(kernel="linear", C=0.025),
     "RBF SVM": SVC(gamma=2, C=1),
-    #"Gaussian Process": GaussianProcessClassifier(1.0 * RBF(1.0)),
-    "Decision Tree": DecisionTreeClassifier(max_depth=5),
+    "Logistic Regression": LogisticRegression(solver='saga', max_iter = 500 ), 
+#     "Gaussian Process": GaussianProcessClassifier(1.0 * RBF(1.0)),
+#     "Decision Tree": DecisionTreeClassifier(max_depth=5),
     "Neural Net": MLPClassifier(alpha=1, max_iter=1000),
     "Random Forest": RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
     "AdaBoost" : AdaBoostClassifier(),
