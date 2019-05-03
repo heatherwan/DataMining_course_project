@@ -21,14 +21,14 @@ from sklearn.metrics import confusion_matrix
 
 classifiers = {
 #     "Naive Bayes" : GaussianNB(),
-#     "K Nerest Neighbors": KNeighborsClassifier(3),
+    "K Nerest Neighbors": KNeighborsClassifier(10),
     "Linear SVM": SVC(kernel="linear", C=0.025),
     "RBF SVM": SVC(gamma=2, C=1),
-    "Logistic Regression": LogisticRegression(solver='saga', max_iter = 500 ), 
+    "Logistic Regression": LogisticRegression( solver='lbfgs', max_iter = 500 ), 
 #     "Gaussian Process": GaussianProcessClassifier(1.0 * RBF(1.0)),
-#     "Decision Tree": DecisionTreeClassifier(max_depth=5),
+    "Decision Tree": DecisionTreeClassifier(max_depth=5),
     "Neural Net": MLPClassifier(alpha=1, max_iter=1000),
-    "Random Forest": RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
+    "Random Forest": RandomForestClassifier(n_estimators=100),
     "AdaBoost" : AdaBoostClassifier(),
     "XGBoost": xgb.XGBClassifier()
 }
@@ -43,7 +43,7 @@ def evaluate_classification(X, y):
     profit_scoring = make_scorer(profit_scorer, greater_is_better=True)
     
     for name, clf in classifiers.items():
-        print(cross_validate(clf, X, y=y, cv=cv, scoring=profit_scoring)['test_score'])
+#         print(cross_validate(clf, X, y=y, cv=cv, scoring=profit_scoring)['test_score'])
         result = sum(cross_validate(clf, X, y=y, cv=cv, scoring=profit_scoring)['test_score'])
         print(f"{name}: test core = {result} ")
         
