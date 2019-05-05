@@ -21,14 +21,14 @@ from sklearn.metrics import confusion_matrix
 
 classifiers = {
 #     "Naive Bayes" : GaussianNB(),
-    "K Nerest Neighbors": KNeighborsClassifier(10),
-    "Linear SVM": SVC(kernel="linear", C=0.025),
+#     "K Nerest Neighbors": KNeighborsClassifier(10),
+#     "Linear SVM": SVC(kernel="linear", C=0.025),
     "RBF SVM": SVC(gamma=2, C=1),
     "Logistic Regression": LogisticRegression( solver='lbfgs', max_iter = 500 ), 
 #     "Gaussian Process": GaussianProcessClassifier(1.0 * RBF(1.0)),
-    "Decision Tree": DecisionTreeClassifier(max_depth=5),
+#     "Decision Tree": DecisionTreeClassifier(max_depth=10),
     "Neural Net": MLPClassifier(alpha=1, max_iter=1000),
-    "Random Forest": RandomForestClassifier(n_estimators=100),
+    "Random Forest": RandomForestClassifier(n_estimators=500),
     "AdaBoost" : AdaBoostClassifier(),
     "XGBoost": xgb.XGBClassifier()
 }
